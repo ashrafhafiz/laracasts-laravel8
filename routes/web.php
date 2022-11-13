@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Post;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,66 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+//    $files = File::files(resource_path('posts'));
+
+//  Method 4
+//  Collect will collect an array and wrap it with a collection object
+//    $posts = collect($files)
+//
+//        ->map(fn($file) => YamlFrontMatter::parseFile($file))
+//
+//        ->map(fn($document) => new Post(
+//            $document->title,
+//            $document->slug,
+//            $document->excerpt,
+//            $document->date,
+//            $document->body()
+//        ));
+
+
+//  Method 3
+//    $posts = array_map(function ($file){
+//
+//        $document = YamlFrontMatter::parseFile($file);
+//
+//        return new Post(
+//            $document->title,
+//            $document->slug,
+//            $document->excerpt,
+//            $document->date,
+//            $document->body()
+//        );
+//
+//    }, $files);
+
+
+
+//    Method 2
+//    $posts = [];
+//
+//    foreach ($files as $file) {
+//        $document = YamlFrontMatter::parseFile($file);
+//
+//        $posts[] = new Post(
+//            $document->title,
+//            $document->slug,
+//            $document->excerpt,
+//            $document->date,
+//            $document->body()
+//        );
+//    }
+
+
+//    Method 1
+//    $document = YamlFrontMatter::parseFile(
+//        resource_path('/posts/my-forth-post.html')
+//    );
+//    dd($documents);
+//    dd($document->body());
+//    dd($document->matter());
+//    dd($document->matter('title'));
+//    dd($document->title);
 
     return view('posts', [
         'posts' => Post::all()
