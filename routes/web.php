@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -18,92 +20,49 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 Route::get('/', function () {
 
-//    $files = File::files(resource_path('posts'));
-
-//  Method 4
-//  Collect will collect an array and wrap it with a collection object
-//    $posts = collect($files)
-//
-//        ->map(fn($file) => YamlFrontMatter::parseFile($file))
-//
-//        ->map(fn($document) => new Post(
-//            $document->title,
-//            $document->slug,
-//            $document->excerpt,
-//            $document->date,
-//            $document->body()
-//        ));
-
-
-//  Method 3
-//    $posts = array_map(function ($file){
-//
-//        $document = YamlFrontMatter::parseFile($file);
-//
-//        return new Post(
-//            $document->title,
-//            $document->slug,
-//            $document->excerpt,
-//            $document->date,
-//            $document->body()
-//        );
-//
-//    }, $files);
-
-
-
-//    Method 2
-//    $posts = [];
-//
-//    foreach ($files as $file) {
-//        $document = YamlFrontMatter::parseFile($file);
-//
-//        $posts[] = new Post(
-//            $document->title,
-//            $document->slug,
-//            $document->excerpt,
-//            $document->date,
-//            $document->body()
-//        );
-//    }
-
-
-//    Method 1
-//    $document = YamlFrontMatter::parseFile(
-//        resource_path('/posts/my-forth-post.html')
-//    );
-//    dd($documents);
-//    dd($document->body());
-//    dd($document->matter());
-//    dd($document->matter('title'));
-//    dd($document->title);
+    // Manual Debugging
+    //
+    //    \Illuminate\Support\Facades\DB::listen(function ($query){
+    //        // \Illuminate\Support\Facades\Log::info($query->sql, $query->bindings);
+    //        logger($query->sql, $query->bindings);
+    //    });
 
     return view('posts', [
-        'posts' => Post::all()
+        // 'posts' => Post::all()
+        'posts' => Post::with(['category','user'])->get()
     ]);
 });
 
-Route::get('/posts/{post}', function ($slug) {
+// Illustration of route-model binding
+// mapping a route key "post" to a model "Post"
+// wild card name {post} has to match the variable name $post
 
-    // $path = __dir__ . '/../resources/posts/'.$slug.'.html';
-
-    // if (! file_exists($path = __dir__ . "/../resources/posts/{$slug}.html")) {
-    //     // abort(404);
-    //     return redirect('/');
-    // }
-
-    // $post =  cache()->remember("posts.{$slug}", now()->addMinutes(1), function () use ($path) {
-    //     // var_dump('get the file again');
-    //     return file_get_contents($path);
-    // });
+Route::get('/posts/{post:slug}', function (Post $post) {
 
     return view('post', [
-        'post' => Post::findOrFail($slug)
+        'post' => $post
     ]);
 });
-//})->where('post', '[a-zA-Z_\-]+');        // replaced by findOrFail
 
-// whereAlpha('post')
-// whereNumber
-// whereAlphaNumeric
-// whereIn
+//Route::get('/posts/{post}', function ($id) {
+//
+//    return view('post', [
+//        'post' => Post::findOrFail($id)
+//    ]);
+//});
+
+Route::get('/categories/{category:slug}', function (Category $category) {
+
+    return view('posts', [
+        'posts' => $category->posts->load(['category','user'])
+//        'posts' => Post::with(['category','user'])->where('category_id', $category->id)->get()
+    ]);
+});
+
+Route::get('/users/{user:username}', function (User $user) {
+
+    return view('posts', [
+        'posts' => $user->posts->load(['category','user'])
+//        'posts' => Post::with(['category','user'])->where('user_id', $user->id)->get()
+    ]);
+});

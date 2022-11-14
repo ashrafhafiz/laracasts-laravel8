@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ea5996928a6e8c81aaf14c72445d9e0",
+    "content-hash": "8fefae59a69cef838458c7385de652df",
     "packages": [
         {
             "name": "brick/math",
@@ -896,6 +896,74 @@
                 }
             ],
             "time": "2022-10-26T14:07:24+00:00"
+        },
+        {
+            "name": "itsgoingd/clockwork",
+            "version": "v5.1.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/itsgoingd/clockwork.git",
+                "reference": "a790200347f0c6d07e2fca252ccb446df87520c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/itsgoingd/clockwork/zipball/a790200347f0c6d07e2fca252ccb446df87520c6",
+                "reference": "a790200347f0c6d07e2fca252ccb446df87520c6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Clockwork\\Support\\Laravel\\ClockworkServiceProvider"
+                    ],
+                    "aliases": {
+                        "Clockwork": "Clockwork\\Support\\Laravel\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Clockwork\\": "Clockwork/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "itsgoingd",
+                    "email": "itsgoingd@luzer.sk",
+                    "homepage": "https://twitter.com/itsgoingd"
+                }
+            ],
+            "description": "php dev tools in your browser",
+            "homepage": "https://underground.works/clockwork",
+            "keywords": [
+                "Devtools",
+                "debugging",
+                "laravel",
+                "logging",
+                "lumen",
+                "profiling",
+                "slim"
+            ],
+            "support": {
+                "issues": "https://github.com/itsgoingd/clockwork/issues",
+                "source": "https://github.com/itsgoingd/clockwork/tree/v5.1.11"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/itsgoingd",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-11-02T21:11:04+00:00"
         },
         {
             "name": "laravel/framework",
@@ -5229,6 +5297,61 @@
                 }
             ],
             "time": "2022-10-07T08:04:03+00:00"
+        },
+        {
+            "name": "taylornetwork/laravel-username-generator",
+            "version": "2.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/taylornetwork/laravel-username-generator.git",
+                "reference": "f0761073a1209368896559d66fd57a6927c46853"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/taylornetwork/laravel-username-generator/zipball/f0761073a1209368896559d66fd57a6927c46853",
+                "reference": "f0761073a1209368896559d66fd57a6927c46853",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "illuminate/support": ">=5.5",
+                "php": "^7.4|^8.0|^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "*",
+                "psy/psysh": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "TaylorNetwork\\UsernameGenerator\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "UsernameGenerator": "TaylorNetwork\\UsernameGenerator\\Facades\\UsernameGenerator"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TaylorNetwork\\UsernameGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Taylor",
+                    "email": "sam@taylornetwork.ca"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/taylornetwork/laravel-username-generator/issues",
+                "source": "https://github.com/taylornetwork/laravel-username-generator/tree/2.8.0"
+            },
+            "time": "2022-07-29T11:43:51+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
