@@ -29,9 +29,10 @@ Route::get('/', function () {
 
     return view('posts', [
         // 'posts' => Post::all()
-        'posts' => Post::with(['category','user'])->get()
+        'posts' => Post::with(['category','user'])->get(),
+        'categories' => Category::all()
     ]);
-});
+})->name('home');
 
 // Illustration of route-model binding
 // mapping a route key "post" to a model "Post"
@@ -54,15 +55,18 @@ Route::get('/posts/{post:slug}', function (Post $post) {
 Route::get('/categories/{category:slug}', function (Category $category) {
 
     return view('posts', [
-        'posts' => $category->posts->load(['category','user'])
+        'posts' => $category->posts->load(['category','user']),
+        'categories' => Category::all(),
+        'currentCategory' => $category
 //        'posts' => Post::with(['category','user'])->where('category_id', $category->id)->get()
     ]);
-});
+})->name('category');
 
 Route::get('/users/{user:username}', function (User $user) {
 
     return view('posts', [
-        'posts' => $user->posts->load(['category','user'])
+        'posts' => $user->posts->load(['category','user']),
+        'categories' => Category::all()
 //        'posts' => Post::with(['category','user'])->where('user_id', $user->id)->get()
     ]);
 });
