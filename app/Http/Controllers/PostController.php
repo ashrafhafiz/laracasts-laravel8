@@ -9,16 +9,10 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     public function index() {
-        $posts = Post::with(['category','user'])->latest();
-
-        if (request('search')) {
-            $posts
-                ->where('title', 'like', '%' . request('search') . '%')
-                ->orWhere('body', 'like', '%' . request('search') . '%');
-        }
 
         return view('posts', [
-            'posts' => $posts->get(),
+            // 'posts' => $this->getPosts(),
+            'posts' => Post::latest()->filter(request(['search']))->get(),
             'categories' => Category::all()
         ]);
     }
@@ -29,4 +23,22 @@ class PostController extends Controller
             'post' => $post
         ]);
     }
+
+
+    // to be used inside index method:
+    // 'posts' => $this->getPosts(),
+    //
+    // The better approach is to use Query Scope
+    //
+    protected function getPosts() {
+        $posts = Post::with(['category','user'])->latest();
+
+        if (request('search')) {
+            $posts
+                ->where('title', 'like', '%' . request('search') . '%')
+                ->orWhere('body', 'like', '%' . request('search') . '%');
+        }
+
+        return $posts->get();
+   }
 }

@@ -29,12 +29,43 @@ class Post extends Model
     // return 'slug';
     //}
 
+    // simple query scope
+    //    public function scopeFilter($query) {
+    //        if (request('search')) {
+    //            $query
+    //                ->where('title', 'like', '%' . request('search') . '%')
+    //                ->orWhere('body', 'like', '%' . request('search') . '%');
+    //        }
+    //    }
 
-    public function category() {
+
+    // will be rewritten in more professional way
+    //    public function scopeFilter($query, array $filters) {
+    //        if (isset($filters['search'])) {
+    //            $query
+    //                ->where('title', 'like', '%' . request('search') . '%')
+    //                ->orWhere('body', 'like', '%' . request('search') . '%');
+    //        }
+    //    }
+
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, fn($query, $search) =>
+            $query
+                ->where('title', 'like', '%' . $search . '%')
+                ->orWhere('body', 'like', '%' . $search . '%')
+        );
+    }
+
+
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }
