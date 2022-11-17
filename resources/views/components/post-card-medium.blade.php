@@ -36,7 +36,7 @@
             </div>
 
             <footer class="flex justify-between items-center mt-8">
-                <a href="/users/{{ $post->user->username }}">
+                <a href="/?user={{ $post->user->username }}">
                     <div class="flex items-center text-sm">
                         <img src="/images/lary-avatar.svg" alt="Lary avatar">
                         <div class="ml-3">

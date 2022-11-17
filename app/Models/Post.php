@@ -51,10 +51,47 @@ class Post extends Model
 
     public function scopeFilter($query, array $filters)
     {
+        // SELECT * FROM `posts`
+        //      WHERE (`title` like '%search%' or `body` like '%search%')
+        //      ORDER BY `created_at` DESC
         $query->when($filters['search'] ?? false, fn($query, $search) =>
-            $query
-                ->where('title', 'like', '%' . $search . '%')
-                ->orWhere('body', 'like', '%' . $search . '%')
+
+        // Fixing a bug
+        //
+        // $query
+        //      ->where('title', 'like', '%' . $search . '%')
+        //      ->orWhere('body', 'like', '%' . $search . '%')
+            $query->where(
+                fn($query) => $query
+                    ->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('body', 'like', '%' . $search . '%')
+            )
+            );
+
+        //        // SELECT * FROM `posts`
+        //        // WHERE EXISTS (SELECT * FROM `categories`
+        //        //                  WHERE `categories`.`id` = `posts`.`category_id`
+        //        //                  and `categories`.`slug` = 'work')
+        //        //              ORDER BY `created_at` DESC
+        //        $query->when($filters['category'] ?? false, fn($query, $category) =>
+        //            $query
+        //                ->whereExists(fn($query) =>
+        //                    $query->from('categories')
+        //                        ->whereColumn('categories.id', 'posts.category_id')
+        //                        ->where('categories.slug', $category))
+        //
+        //        );
+
+        $query->when($filters['category'] ?? false, fn($query, $category)=>
+            $query->whereHas('category',
+                fn($query) => $query->where('slug', $category)
+            )
+        );
+
+        $query->when($filters['user'] ?? false, fn($query, $user)=>
+        $query->whereHas('user',
+            fn($query) => $query->where('username', $user)
+        )
         );
     }
 

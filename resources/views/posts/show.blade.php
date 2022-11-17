@@ -9,7 +9,7 @@
                 <p class="mt-4 block text-gray-400 text-xs">
                     Published <time>{{ $post->created_at->diffForHumans() }}</time>
                 </p>
-                <a href="/users/{{ $post->user->username }}">
+                <a href="/?user={{ $post->user->username }}">
                     <div class="flex items-center lg:justify-center text-sm mt-4">
                         <img src="/images/lary-avatar.svg" alt="Lary avatar">
                         <div class="ml-3 text-left">
