@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -18,39 +19,10 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', [PostController::class, 'index'])->name('home');
 
-    // Manual Debugging
-    //
-    //    \Illuminate\Support\Facades\DB::listen(function ($query){
-    //        // \Illuminate\Support\Facades\Log::info($query->sql, $query->bindings);
-    //        logger($query->sql, $query->bindings);
-    //    });
+Route::get('/posts/{post:slug}', [PostController::class, 'show']);
 
-    return view('posts', [
-        // 'posts' => Post::all()
-        'posts' => Post::with(['category','user'])->get(),
-        'categories' => Category::all()
-    ]);
-})->name('home');
-
-// Illustration of route-model binding
-// mapping a route key "post" to a model "Post"
-// wild card name {post} has to match the variable name $post
-
-Route::get('/posts/{post:slug}', function (Post $post) {
-
-    return view('post', [
-        'post' => $post
-    ]);
-});
-
-//Route::get('/posts/{post}', function ($id) {
-//
-//    return view('post', [
-//        'post' => Post::findOrFail($id)
-//    ]);
-//});
 
 Route::get('/categories/{category:slug}', function (Category $category) {
 
@@ -61,6 +33,7 @@ Route::get('/categories/{category:slug}', function (Category $category) {
 //        'posts' => Post::with(['category','user'])->where('category_id', $category->id)->get()
     ]);
 })->name('category');
+
 
 Route::get('/users/{user:username}', function (User $user) {
 
