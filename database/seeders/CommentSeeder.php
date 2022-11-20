@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UserSeeder extends Seeder
+class CommentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,14 +17,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('users')->truncate();
+        DB::table('comments')->truncate();
 
-        User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        Comment::factory(100)->create();
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }

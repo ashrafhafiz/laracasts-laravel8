@@ -22,5 +22,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([PostSeeder::class]);
         $this->command->info('Posts table seeded!');
+
+        $this->call([CommentSeeder::class]);
+        $this->command->info('Comments table seeded!');
     }
 }
