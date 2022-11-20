@@ -53,23 +53,38 @@
             {{-- Comments Section --}}
 
             <section class="col-start-5 col-span-8 mt-10 space-y-6">
-                <form method="POST" action="#" class="border border-gray-200 p-6 rounded-xl">
-                    @csrf
-                    <header class="flex items-center">
-                        <img src="https://i.pravatar.cc/60?u={{ auth()->user() }}" width="40" height="40"
-                            class="rounded-full" alt="avatar">
-                        <h2 class="ml-4">Want to participate?</h2>
-                    </header>
-                    <div class="mt-6">
-                        <textarea class="w-full text-sm focus:outline-none focus:ring bg-gray-50 p-3" cols="30" rows="10"
-                            style="resize:none" type="text" name="body" id="body" placeholder="Quick, think of something to say!"></textarea>
+                @auth
+                    <form method="POST" action="/posts/{{ $post->slug }}/comments"
+                        class="border border-gray-200 p-6 rounded-xl">
+                        @csrf
+                        <header class="flex items-center">
+                            <img src="https://i.pravatar.cc/60?u={{ auth()->user() }}" width="40" height="40"
+                                class="rounded-full" alt="avatar">
+                            <h2 class="ml-4">Want to participate?</h2>
+                        </header>
+                        <div class="mt-6">
+                            <textarea class="w-full text-sm focus:outline-none focus:ring bg-gray-50 p-3" cols="30" rows="10"
+                                style="resize:none" type="text" name="body" id="body" placeholder="Quick, think of something to say!"></textarea>
+                            @error('body')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="flex justify-end mt-10">
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-600 text-white text-sx font-semibold py-2 px-10 rounded-2xl">Add
+                                Comment</button>
+                        </div>
+                    </form>
+                @else
+                    <div class="text-blue-700 text-bold text-sm mb-10">
+                        Please
+                        <a href="/register" class="text-xs font-bold uppercase mx-1 text-red-500">Register</a>
+                        or
+                        <a href="/login" class="text-xs font-bold uppercase mx-1 text-red-500">Sign In</a>
+                        to leave a comment...
                     </div>
-                    <div class="flex justify-end mt-10">
-                        <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white text-sx font-semibold py-2 px-10 rounded-2xl">Add
-                            Comment</button>
-                    </div>
-                </form>
+                @endauth
+
                 @foreach ($post->comments as $comment)
                     <x-post-comment :comment="$comment" />
                 @endforeach
