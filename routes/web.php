@@ -6,6 +6,18 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\RegisterController;
 
+Route::get('ping', function () {
+    $mailchimp = new \MailchimpMarketing\ApiClient();
+
+    $mailchimp->setConfig([
+        'apiKey' => config('services.mailchimp.key'),
+        'server' => config('services.mailchimp.server'),
+    ]);
+
+    $response = $mailchimp->lists->getList('7ccad029ea');
+    dd($response);
+});
+
 Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
 Route::post('posts/{post:slug}/comments', [CommentController::class, 'store']);
