@@ -14,7 +14,8 @@ class Post extends Model
         'slug',
         'excerpt',
         'body',
-        'category_id'
+        'category_id',
+        'user_id',
     ];
 
     public function scopeFilter($query, array $filters)
